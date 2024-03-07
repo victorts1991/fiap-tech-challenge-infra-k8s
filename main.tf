@@ -88,6 +88,6 @@ module "eks" {
 }
 
 resource "aws_cloudwatch_log_group" "fiap-tech-challenge-infra-k8s_log_group" {
-  name              = "fiap-tech-challenge-infra-k8s_log_group"
+  source            = "/aws/eks/fiap-tech-challenge-infra-k8s/cluster"
   retention_in_days = 7
 }
