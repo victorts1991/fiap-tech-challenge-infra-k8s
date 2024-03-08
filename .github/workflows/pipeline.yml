@@ -32,11 +32,16 @@ jobs:
     - name: Terraform Validate
       id: validate
       run: terraform validate -no-color
+
+    - name: Terraform Destroy
+      id: destory
+      run: terraform destroy
+      continue-on-error: true
     
     - name: Terraform Plan
       id: plan
       run: terraform plan -no-color
-      continue-on-error: true
+      continue-on-error: true    
 
     - name: Terraform Apply
       id: apply
