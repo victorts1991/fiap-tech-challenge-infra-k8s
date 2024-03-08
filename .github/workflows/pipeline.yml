@@ -80,7 +80,7 @@ jobs:
       run: |
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api:latest
         cd ./kubernetes/metrics-server
-        kubectl apply -f components.yaml --kubelet-preferred-address-types=InternalIP --kubelet-insecure-tls
+        kubectl apply -f components.yaml --kubelet-insecure-tls
         cd ../api-go
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
