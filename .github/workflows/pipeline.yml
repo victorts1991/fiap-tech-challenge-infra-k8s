@@ -65,7 +65,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
-        mask-aws-account-id: 'no'
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -81,7 +80,7 @@ jobs:
       run: |
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api:latest
         cd ./kubernetes/metrics-server
-        kubectl apply -f components.yaml
+        kubectl apply -f components.yaml --kubelet-preferred-address-types=InternalIP --kubelet-insecure-tls
         cd ../api-go
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
