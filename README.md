@@ -18,11 +18,14 @@ Foi utilizada a nuvem da Amazon (AWS) para este tech challenge:
 11. Na plataforma do Github, acesse o menu "Settings" do projeto, na tela que se abrir, clique no menu Security->Secrets and variables->Actions;
 12. Adicione uma "repository secret" chamada AWS_ACCESS_KEY_ID com o valor copiado de "Chave de acesso", e crie outra "repository secret" chamada AWS_SECRET_ACCESS_KEY com o valor copiado de "Chave de acesso secreta";
 13. Após isso qualquer commit ou pull request neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
-14. A plataforma da AWS não permite inicialmente visualizar os recursos do kubernetes via interface, para que isso seja possível, é necessário seguir um tutorial criado por eles mesmos:
+
+### Validação da execução do Kubernetes
+
+- A plataforma da AWS não permite inicialmente que um usuário root visualize os recursos do kubernetes nos detalhes do Cluster EKS, para que isso seja possível é necessário seguir um tutorial criado por eles mesmos:
 
 (https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions)https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions
 
-15. Para visualizar a estrutura sendo executada sem a utilização da interface, é possível acessar o CloudShell da AWS e executar os seguintes comandos:
+- Porém conseguimos visualizar toda a estrutura através do CloudShell. Para isso acesse ele e após ele abrir, digite os comandos abaixo:
 
 ```sh
 aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-1 
