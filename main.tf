@@ -69,9 +69,6 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
-  manage_aws_auth_configmap = true
-  aws_auth_users            = ["arn:aws:iam::058264412534:root"]
-
   eks_managed_node_groups = {
     first = {
       desired_capacity = 1
