@@ -36,6 +36,7 @@ jobs:
     - name: Terraform Destroy
       id: destory
       run: terraform destroy
+      continue-on-error: true
     
     - name: Terraform Plan
       id: plan
@@ -45,6 +46,7 @@ jobs:
     - name: Terraform Apply
       id: apply
       run: terraform apply -auto-approve
+      continue-on-error: true
 
   setup-kubernetes:
 
