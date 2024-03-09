@@ -72,13 +72,16 @@ jobs:
  
     - name: Install kubectl
       uses: azure/setup-kubectl@v3
-      id: install
+      id: install-kubectl
 
     - name: Update KubeConfig
       shell: bash
       run: |
         aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-1
-        
+
+    - name: Install eksctl
+    - uses: moia-oss/setup-eksctl@v1
+      id: install-eksctl        
 
     - name: Deploy      
       env:
