@@ -83,7 +83,6 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        kubectl get namespaces
         kubectl config set-context --current --namespace=default
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api:latest
         cd ./kubernetes/metrics-server
@@ -92,5 +91,4 @@ jobs:
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml
-        kubectl get deployments
 
