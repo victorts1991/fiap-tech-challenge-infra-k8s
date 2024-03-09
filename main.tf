@@ -77,5 +77,13 @@ module "eks" {
 
       instance_type = "t3.micro"
     }
+
+    second = {
+      desired_capacity = 1
+      max_capacity     = 10
+      min_capacity     = 1
+
+      instance_type = "t3.micro"
+    }
   }
 }
