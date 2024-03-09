@@ -9,7 +9,7 @@ Foi utilizada a nuvem da Amazon (AWS) para este tech challenge:
 2. Acesse IAM->Usuários e crie um novo usuário chamado Github;
 3. Com esse usuário criado, vá até a listagem de usuários e acesse os detalhes do mesmo;
 4. No menu Permissões que irá aparecer na tela de detalhes, clique no botão "Adicionar permissões" que aparece no canto direito e selecione a opção "Criar política em linha";
-5. Em serviços, selecione (EC2, EKS, IAM e CloudWatch), selecione a opção de cada um "Todas as ações do..." e em Recursos de cada um, marque a opção "Tudo";
+5. Em serviços, selecione (EC2, EKS, IAM e CloudWatch Logs), selecione a opção de cada um "Todas as ações do..." e em Recursos de cada um, marque a opção "Tudo";
 6. Após avançar, defina um nome e clique em "Criar política";
 7. Após isso, de volta a tela de detalhes do usuário, clique na aba "Credenciais de Segurança", e no bloco "Chaves de acesso", clique em "Criar chave de acesso";
 8. Na tela que irá se abrir, selecione a opção "Command Line Interface (CLI)" e clique em próximo;
