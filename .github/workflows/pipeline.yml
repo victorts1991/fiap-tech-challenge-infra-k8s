@@ -78,12 +78,15 @@ jobs:
       shell: bash
       run: |
         aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-1
+        
 
     - name: Deploy      
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: |
-        kubectl config set-context --current --namespace=default
+      run: |        
+        kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+        kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+        kubectl edit -n kube-system configmap/aws-auth
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api:latest
         cd ./kubernetes/metrics-server
         kubectl apply -f components.yaml
