@@ -84,10 +84,13 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
-        kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api:latest
+        
+        kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml        
+        eksctl get iamidentitymapping --cluster fiap-tech-challenge-infra-k8s --region=us-east-1
+        eksctl create iamidentitymapping --cluster fiap-tech-challenge-infra-k8s --region=us-east-1 --arn arn:aws:iam::058264412534:role/AmazonEKSConnectorAgentRole --group eks-console-dashboard-full-access-group --no-duplicate-arns
         eksctl get iamidentitymapping --cluster fiap-tech-challenge-infra-k8s --region=us-east-1
         
-        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api:latest
         cd ./kubernetes/metrics-server
         kubectl apply -f components.yaml
         cd ../api-go
