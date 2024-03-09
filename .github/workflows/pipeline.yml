@@ -68,19 +68,16 @@ jobs:
 
     - name: Login to Amazon ECR
       id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Deploy to Cluster
-      uses: neosec-com/kubectl-aws-eks@1.1.2
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        args: kubectl apply -f ./kubernetes/metrics-server/components.yaml 
-        
-
+      uses: aws-actions/amazon-ecr-login@v1    
+ 
     - name: Install kubectl
       uses: azure/setup-kubectl@v3
       id: install
+
+    - name: Update KubeConfig
+      shell: bash
+      run: |
+        aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-1
 
     - name: Deploy      
       env:
