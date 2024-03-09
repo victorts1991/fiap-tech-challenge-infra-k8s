@@ -90,4 +90,5 @@ jobs:
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml
+        kubectl get deployments
 
