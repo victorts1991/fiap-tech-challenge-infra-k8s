@@ -109,7 +109,7 @@ resource "aws_iam_policy" "eks_view_resources_policy" {
       {
         Effect   = "Allow"
         Action   = "ssm:GetParameter"
-        Resource = "arn:aws:ssm:*:${var.aws_account_id}:parameter/*"
+        Resource = "arn:aws:ssm:*:058264412534:parameter/*"
       }
     ]
   })
