@@ -87,7 +87,7 @@ jobs:
         cd ./kubernetes/metrics-server
         kubectl apply -f components.yaml
         cd ../api-go
-        kubectl apply -f config-map.yaml
+        kubectl apply -f secrets.yaml
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml
