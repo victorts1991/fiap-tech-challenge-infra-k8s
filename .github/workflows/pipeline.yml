@@ -77,7 +77,7 @@ jobs:
     - name: Update KubeConfig
       shell: bash
       run: |
-        aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-1 
+        aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-2 
 
     - name: Deploy 
       env:
