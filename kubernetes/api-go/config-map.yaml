@@ -7,5 +7,5 @@ data:
   DB_PASS: "123mudar"
   DB_NAME: "terraform-20240311105715606800000002"
   DB_USER: "admin"
-  DB_PORT: 3306
+  DB_PORT: "3306"
   
