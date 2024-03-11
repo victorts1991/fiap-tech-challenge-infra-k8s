@@ -3,9 +3,9 @@ kind: ConfigMap
 metadata:
   name: configmap
 data:
-  DB_HOST: terraform-20240311105715606800000002.cna4quag4foq.us-east-1.rds.amazonaws.com
-  DB_PASS: 123mudar
-  DB_NAME: terraform-20240311105715606800000002
-  DB_USER: admin
+  DB_HOST: "terraform-20240311105715606800000002.cna4quag4foq.us-east-1.rds.amazonaws.com"
+  DB_PASS: "123mudar"
+  DB_NAME: "terraform-20240311105715606800000002"
+  DB_USER: "admin"
   DB_PORT: 3306
   
