@@ -75,7 +75,7 @@ module "eks" {
       max_capacity     = 10
       min_capacity     = 1
 
-      instance_type = "t3.micro"
+      instance_type = "t2.small"
     }
 
     second = {
@@ -83,7 +83,7 @@ module "eks" {
       max_capacity     = 10
       min_capacity     = 1
 
-      instance_type = "t3.micro"
+      instance_type = "t2.small"
     }
   }
 }
