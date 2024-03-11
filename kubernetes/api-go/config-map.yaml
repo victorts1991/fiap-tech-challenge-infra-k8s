@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sistema-configmap
+  name: configmap
 data:
   DB_HOST: terraform-20240311105715606800000002.cna4quag4foq.us-east-1.rds.amazonaws.com
   DB_PASS: 123mudar
