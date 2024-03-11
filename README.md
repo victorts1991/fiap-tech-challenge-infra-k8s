@@ -46,4 +46,3 @@ kubectl get pods
 kubectl logs --tail=20 api-deployment-b846c58bd-22v7s
 
 ```
-
