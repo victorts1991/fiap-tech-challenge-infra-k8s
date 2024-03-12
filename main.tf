@@ -59,6 +59,23 @@ module "vpc" {
   }
 }
 
+resource "aws_security_group" "eks_sg" {
+  name = "eks_sg"
+
+  ingress {
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "18.30.3"
@@ -68,6 +85,8 @@ module "eks" {
   subnet_ids      = module.vpc.private_subnets
 
   vpc_id = module.vpc.vpc_id
+
+  vpc_security_group_ids = [aws_security_group.eks_sg.id]
 
   eks_managed_node_groups = {
     first = {
