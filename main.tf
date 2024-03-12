@@ -62,7 +62,7 @@ module "vpc" {
   }
 }
 
-resource "aws_default_security_group" "lb_sg" {
+resource "aws_default_security_group" "default" {
   vpc_id = module.vpc.vpc_id
 
   ingress {
@@ -97,7 +97,7 @@ module "eks" {
    eks_managed_node_group_defaults = {
     ami_type               = "AL2_x86_64"
     instance_types         = ["t3.small", "t3.small"]
-    vpc_security_group_ids = [aws_default_security_group.lb_sg.id]
+    vpc_security_group_ids = [aws_default_security_group.default.id]
   }
 
   eks_managed_node_groups = {
