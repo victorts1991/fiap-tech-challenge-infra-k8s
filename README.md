@@ -57,7 +57,7 @@ echo -n '123mudar' | base64
 
 - Porém conseguimos visualizar toda a estrutura através do CLI ou chamando os endpoints da api mesmo.
 
-# Via CLI:
+# CLI:
 
 ```sh
 
@@ -73,3 +73,6 @@ kubectl get pods
 
 kubectl describe pods
 ```
+
+# Chamando os endpoints:
+
