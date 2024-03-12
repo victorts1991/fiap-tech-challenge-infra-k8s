@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: api-svc
   annotations:
-    alb.ingress.kubernetes.io/security-groups: eks_sg
+    alb.ingress.kubernetes.io/security-groups: eks_default
 spec:
   type: LoadBalancer
   selector:
