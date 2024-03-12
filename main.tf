@@ -35,49 +35,34 @@ resource "local_file" "kubeconfig" {
   filename = "kubeconfig_${local.cluster_name}"
 }
 
-resource "aws_default_vpc" "default" {
-    tags = {
-        Name = "Default VPC"
-    }
-}
 
-resource "aws_default_subnet" "default_subnet_a" {
-  availability_zone = "us-east-2a"
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "5.0.0"
 
-  tags = {
-    Name = "Default subnet for us-east-2a"
+  name                 = "k8s-vpc"
+  cidr                 = "172.16.0.0/16"
+  azs                  = data.aws_availability_zones.available.names
+  private_subnets      = ["172.16.1.0/24", "172.16.2.0/24", "172.16.3.0/24"]
+  public_subnets       = ["172.16.4.0/24", "172.16.5.0/24", "172.16.6.0/24"]
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  public_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                      = "1"
   }
-}
 
-resource "aws_default_subnet" "default_subnet_b" {
-  availability_zone = "us-east-2b"
-
-  tags = {
-    Name = "Default subnet for us-east-2b"
-  }
-}
-
-
-
-resource "aws_security_group" "eks_sg" {
-  name = "eks_sg"
-
-  ingress {
-    from_port       = 3000
-    to_port         = 3000
-    protocol        = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb"             = "1"
   }
 }
 
 resource "aws_default_security_group" "default" {
-  vpc_id = aws_default_vpc.default.id
+  vpc_id = module.vpc.vpc_id
 
   ingress {
     from_port       = 3000
@@ -103,6 +88,9 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
 
+  subnet_ids      = module.vpc.public_subnets
+
+  vpc_id = module.vpc.vpc_id
 
   eks_managed_node_groups = {
     first = {
