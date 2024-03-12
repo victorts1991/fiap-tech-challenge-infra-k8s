@@ -79,6 +79,14 @@ resource "aws_default_security_group" "default" {
   }
 }
 
+
+resource "aws_elb" "terraform-elb" {
+  name = "terraform-elb"
+  security_groups  = [ "${aws_default_security_group.default}" ]
+  subnets          = [ "${module.vpc.public_subnets}" ]
+}
+
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "18.30.3"
