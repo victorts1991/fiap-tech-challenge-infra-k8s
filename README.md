@@ -75,4 +75,3 @@ kubectl describe pods
 ```
 
 # Chamando os endpoints:
-
