@@ -62,10 +62,8 @@ module "vpc" {
   }
 }
 
-
-
-resource "aws_security_group" "eks_sg" {
-  name = "eks_sg"
+resource "aws_default_security_group" "eks_default" {
+  vpc_id = module.vpc.vpc_id
 
   ingress {
     from_port       = 3000
@@ -99,7 +97,7 @@ module "eks" {
    eks_managed_node_group_defaults = {
     ami_type               = "AL2_x86_64"
     instance_types         = ["t3.small", "t3.small"]
-    vpc_security_group_ids = [aws_security_group.eks_sg.id]
+    vpc_security_group_ids = [aws_default_security_group.eks_default.id]
   }
 
   eks_managed_node_groups = {
