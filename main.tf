@@ -49,6 +49,7 @@ module "vpc" {
   single_nat_gateway   = true
   enable_dns_hostnames = true
   enable_dns_support   = true
+  map_public_ip_on_launch = true
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
@@ -87,6 +88,8 @@ module "eks" {
 
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
+
+  subnet_id = "${aws_subnet.default.id}"
 
   subnet_ids      = module.vpc.public_subnets
 
