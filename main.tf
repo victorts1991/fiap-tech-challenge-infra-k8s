@@ -62,7 +62,7 @@ module "vpc" {
   }
 }
 
-resource "aws_default_security_group" "default" {
+resource "aws_default_security_group" "lb_sg" {
   vpc_id = module.vpc.vpc_id
 
   ingress {
