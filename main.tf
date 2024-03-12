@@ -94,10 +94,9 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
-   eks_managed_node_group_defaults = {
+  eks_managed_node_group_defaults = {
     ami_type               = "AL2_x86_64"
     instance_types         = ["t3.small", "t3.small"]
-    vpc_security_group_ids = [aws_default_security_group.eks_default.id]
   }
 
   eks_managed_node_groups = {
@@ -117,4 +116,20 @@ module "eks" {
       instance_type = "t2.small"
     }
   }
+
+  node_security_group_additional_rules = {
+    ingress_self_all = {
+      from_port       = 3000
+      to_port         = 3000
+      protocol        = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress_all = {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+  
 }
