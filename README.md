@@ -21,7 +21,7 @@ https://github.com/AlvaroRumpel/fiap-tech-challenge-infra-database
 https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-config-file/
 ```
 Basicamente será necessário executar comandos semelhantes aos do exemplo abaixo e copiar seus valores de saída:
-```
+```sh
 //Endpoint
 echo -n 'db.cbqgeakk0utc.us-east-2.rds.amazonaws.com' | base64
 //OUTPUT: ZGIuY2JxZ2Vha2swdXRjLnVzLWVhc3QtMi5yZHMuYW1hem9uYXdzLmNvbQ==
@@ -40,15 +40,14 @@ echo -n '123mudar' | base64
 14. Após isso, ainda no menu de Permissões, clique em "Adicionar permissões" mais um vez, porém dessa vez, selecione a opção "Adicionar permissões" ao invés de "Criar política em linha"; 
 15. Na tela que irá aparecer, selecione a opção "Anexar políticas diretamente";
 16. Pesquise pela permissão "AmazonEC2ContainerRegistryPowerUser" e adicione ela;
+17. Após isso, de volta a tela de detalhes do usuário, clique na aba "Credenciais de Segurança", e no bloco "Chaves de acesso", clique em "Criar chave de acesso";
+18. Na tela que irá se abrir, selecione a opção "Command Line Interface (CLI)" e clique em próximo;
+19. No valor da etiqueta, coloque o valor "github actions" ou qualquer um que prefira para identificar posteriormente; 
+20. Copie os valores dos campos "Chave de acesso" e "Chave de acesso secreta";
+21. Na plataforma do Github, acesse o menu "Settings" do projeto, na tela que se abrir, clique no menu Security->Secrets and variables->Actions;
+22. Adicione uma "repository secret" chamada AWS_ACCESS_KEY_ID com o valor copiado de "Chave de acesso", e crie outra "repository secret" chamada AWS_SECRET_ACCESS_KEY com o valor copiado de "Chave de acesso secreta";
+23. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
 
-
-10. Após isso, de volta a tela de detalhes do usuário, clique na aba "Credenciais de Segurança", e no bloco "Chaves de acesso", clique em "Criar chave de acesso";
-11. Na tela que irá se abrir, selecione a opção "Command Line Interface (CLI)" e clique em próximo;
-12. No valor da etiqueta, coloque o valor "github actions" ou qualquer um que prefira para identificar posteriormente;
-13. Copie os valores dos campos "Chave de acesso" e "Chave de acesso secreta";
-14. Na plataforma do Github, acesse o menu "Settings" do projeto, na tela que se abrir, clique no menu Security->Secrets and variables->Actions;
-15. Adicione uma "repository secret" chamada AWS_ACCESS_KEY_ID com o valor copiado de "Chave de acesso", e crie outra "repository secret" chamada AWS_SECRET_ACCESS_KEY com o valor copiado de "Chave de acesso secreta";
-16. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
 
 ### Validação da execução do Kubernetes
 
@@ -56,7 +55,9 @@ echo -n '123mudar' | base64
 
 (https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions)https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions
 
-- Porém conseguimos visualizar toda a estrutura através do CloudShell. Para isso acesse ele e após ele abrir, digite os comandos abaixo:
+- Porém conseguimos visualizar toda a estrutura através do CLI ou chamando os endpoints da api mesmo.
+
+# Via CLI:
 
 ```sh
 
@@ -66,11 +67,9 @@ echo -n '123mudar' | base64
 // Default region name: us-east-1
 aws configure
 
-aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-1
+aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-2
 
 kubectl get pods
 
-//O valor de api-deployment-b846c58bd-22v7s é apenas como exemplo, verifique a saída do comando get pods acima para validar os logs de um pod específico
-kubectl logs --tail=20 api-deployment-b846c58bd-22v7s
-
+kubectl describe pods
 ```
