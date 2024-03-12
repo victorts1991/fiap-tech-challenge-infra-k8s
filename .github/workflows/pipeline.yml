@@ -95,4 +95,3 @@ jobs:
         kubectl apply -f api-svc.yaml
         kubectl rollout restart deployment api-deployment
         
-
