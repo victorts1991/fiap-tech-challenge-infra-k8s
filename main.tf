@@ -47,6 +47,7 @@ module "vpc" {
   enable_nat_gateway   = true
   single_nat_gateway   = true
   enable_dns_hostnames = true
+  enable_dns_support   = true
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
@@ -82,10 +83,14 @@ module "eks" {
 
   cluster_name    = "${local.cluster_name}"
   cluster_version = "1.25"
+
+  cluster_endpoint_private_access = true
+  cluster_endpoint_public_access  = true
+
   subnet_ids      = module.vpc.private_subnets
 
   vpc_id = module.vpc.vpc_id
-  cluster_security_group_id = aws_security_group.eks_sg.id
+  enable_irsa = true
 
   eks_managed_node_groups = {
     first = {
@@ -94,6 +99,7 @@ module "eks" {
       min_capacity     = 1
 
       instance_type = "t2.small"
+      vpc_security_group_ids            = [aws_security_group.eks_sg.id]
     }
 
     second = {
@@ -102,6 +108,7 @@ module "eks" {
       min_capacity     = 1
 
       instance_type = "t2.small"
+      vpc_security_group_ids            = [aws_security_group.eks_sg.id]
     }
   }
 }
