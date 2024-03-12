@@ -89,8 +89,6 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
 
-  subnet_id = "${aws_subnet.default.id}"
-
   subnet_ids      = module.vpc.public_subnets
 
   vpc_id = module.vpc.vpc_id
