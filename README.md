@@ -47,6 +47,7 @@ echo -n '123mudar' | base64
 21. Na plataforma do Github, acesse o menu "Settings" do projeto, na tela que se abrir, clique no menu Security->Secrets and variables->Actions;
 22. Adicione uma "repository secret" chamada AWS_ACCESS_KEY_ID com o valor copiado de "Chave de acesso", e crie outra "repository secret" chamada AWS_SECRET_ACCESS_KEY com o valor copiado de "Chave de acesso secreta";
 23. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
+24. Após o pipeline ser concluído, antes de testar qualquer coisa, aguarde uns 5 minutos até que toda a estrutura tenha concluído todo o mapeamento interno da AWs;
 
 
 ### Validação da execução do Kubernetes
@@ -76,3 +77,10 @@ kubectl describe pods
 
 # Chamando os endpoints:
 
+1. Na plataforma da AWS, vá até EC2 e clique em "Load balancers" e depois clique no Load Balancer criado;
+2. Na tela que irá se abrir copie o valor do "Nome do DNS", ele será semelhante a este valor "acb1520c01aaf4b2cb76ddf05e045720-765794247.us-east-2.elb.amazonaws.com";
+3. Após isso, concatene o valor copiado com a porta e a url de prova de vida(/liveness), depois disso, cole na barra de navegação do browser mesmo, o valor que você irá inserir na barra de navegação do browser será semelhante ao abaixo:
+
+```sh
+http://acb1520c01aaf4b2cb76ddf05e045720-765794247.us-east-2.elb.amazonaws.com:3000/liveness
+```
