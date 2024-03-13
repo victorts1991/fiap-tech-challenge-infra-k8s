@@ -64,7 +64,7 @@ echo -n '123mudar' | base64
 // Será solicitado os seguintes valores neste comando:
 // AWS Access Key ID: o mesmo de AWS_ACCESS_KEY_ID configurado em Settings->Security->Secrets and variables->Actions
 // AWS Secret Access Key: o mesmo de AWS_SECRET_ACCESS_KEY configurado em Settings->Security->Secrets and variables->Actions
-// Default region name: us-east-1
+// Default region name: us-east-2
 aws configure
 
 aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-2
@@ -75,3 +75,4 @@ kubectl describe pods
 ```
 
 # Chamando os endpoints:
+
