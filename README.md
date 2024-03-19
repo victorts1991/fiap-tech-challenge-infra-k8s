@@ -1,4 +1,4 @@
-# fiap-tech-challenge-api
+# fiap-tech-challenge-infra-k8s
 
 ### Tech Challenge 3:
 ### Passos para homologação dos professores da Fiap
