@@ -3,6 +3,8 @@
 ### Tech Challenge 3:
 ### Passos para homologação dos professores da Fiap
 
+Obs: Para executar os passos abaixo utilize a branch tech-challenge-3
+
 Foi utilizada a nuvem da Amazon (AWS) para este tech challenge:
 
 1. Execute todos os passos que estão no README.md do repositório abaixo para subir a imagem da api no ECR da AWS:
