@@ -1,7 +1,9 @@
-# fiap-tech-challenge-api
+# fiap-tech-challenge-infra-k8s
 
 ### Tech Challenge 3:
 ### Passos para homologação dos professores da Fiap
+
+Obs: Para executar os passos abaixo utilize a branch tech-challenge-3
 
 Foi utilizada a nuvem da Amazon (AWS) para este tech challenge:
 
@@ -84,4 +86,3 @@ kubectl describe pods
 ```sh
 http://acb1520c01aaf4b2cb76ddf05e045720-765794247.us-east-2.elb.amazonaws.com:3000/liveness
 ```
-
