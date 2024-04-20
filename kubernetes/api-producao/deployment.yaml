@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-producao-deployment
+spec:
+  template:
+    metadata:
+      name: api-producao
+      labels: 
+        app: api-producao
+    spec:
+      containers:
+        - name: api-producao-container
+          image: $ECR_REPOSITORY
+          resources:
+            limits:
+              cpu: "0.3"
+              memory: "512Mi"          
+            requests:
+              cpu: "0.3"
+              memory: "512Mi"
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: secrets-api-producao
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 3000
+            periodSeconds: 10
+            failureThreshold: 3
+            initialDelaySeconds: 20
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-producao          
+
