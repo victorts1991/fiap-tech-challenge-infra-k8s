@@ -1,5 +1,10 @@
 # fiap-tech-challenge-infra-k8s
 
+### Tech Challenge 4:
+### Passos para homologação dos professores da Fiap
+
+1. Execute todos os passos do Tech Challenge 3 que se encontram abaixo, com a exceção de ser necessário estar na branch main;
+
 ### Tech Challenge 3:
 ### Passos para homologação dos professores da Fiap
 

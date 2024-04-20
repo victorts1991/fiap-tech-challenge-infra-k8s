@@ -95,4 +95,18 @@ jobs:
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml
         kubectl rollout restart deployment api-deployment
+
+    - name: Deploy API Producao
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |        
+        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-producao:latest        
+        export DB_HOST=${{ secrets.DB_HOST }}
+        export DB_PASS=${{ secrets.DB_PASS }}
+        cd ./api-producao
+        envsubst < secrets.yaml | kubectl apply -f -
+        envsubst < deployment.yaml | kubectl apply -f -
+        kubectl apply -f hpa.yaml
+        kubectl apply -f svc.yaml
+        kubectl rollout restart deployment api-producao-deployment
         
