@@ -103,7 +103,7 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-producao:latest        
         export DB_HOST=${{ secrets.DB_HOST }}
         export DB_PASS=${{ secrets.DB_PASS }}
-        cd ./api-producao
+        cd ./kubernetes/api-producao
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
