@@ -123,4 +123,18 @@ jobs:
         kubectl apply -f hpa.yaml
         kubectl apply -f svc.yaml
         kubectl rollout restart deployment api-pedidos-deployment
+
+    - name: Deploy API Pagamentos
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |        
+        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pagamentos:latest        
+        export DB_HOST=${{ secrets.DB_HOST }}
+        export DB_PASS=${{ secrets.DB_PASS }}
+        cd ./kubernetes/api-pagamentos
+        envsubst < secrets.yaml | kubectl apply -f -
+        envsubst < deployment.yaml | kubectl apply -f -
+        kubectl apply -f hpa.yaml
+        kubectl apply -f svc.yaml
+        kubectl rollout restart deployment api-pagamentos-deployment
         
