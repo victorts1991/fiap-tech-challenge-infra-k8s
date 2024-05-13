@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-pagamentos-deployment
+spec:
+  template:
+    metadata:
+      name: api-pagamentos
+      labels: 
+        app: api-pagamentos
+    spec:
+      containers:
+        - name: api-pagamentos-container
+          image: $ECR_REPOSITORY
+          resources:
+            limits:
+              cpu: "0.3"
+              memory: "512Mi"          
+            requests:
+              cpu: "0.3"
+              memory: "512Mi"
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: secrets-api-pagamentos
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 3000
+            periodSeconds: 10
+            failureThreshold: 3
+            initialDelaySeconds: 20
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-pagamentos          
+
