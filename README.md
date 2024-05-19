@@ -4,7 +4,14 @@
 ### Tech Challenge 4:
 ### Passos para homologação dos professores da Fiap
 
-1. Execute todos os passos do Tech Challenge 3 que se encontram abaixo, com a exceção de ser necessário estar na branch main;
+1. Execute todos os passos que estão no README.md dos repositórios abaixo para subir a imagem da api e dos microsserviços no ECR da AWS:
+```
+https://github.com/rhuandantas/fiap-tech-challenge-pagamentos
+https://github.com/victorts1991/fiap-tech-challenge-api-producao
+https://github.com/rhuandantas/fiap-tech-challenge-pedidos
+```
+
+2. Execute todos os passos do Tech Challenge 3 que se encontram abaixo, com a exceção de ser necessário estar na branch main ao invés de estar na branch tech-challenge-3;
 
 ### Tech Challenge 3:
 ### Passos para homologação dos professores da Fiap
