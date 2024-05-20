@@ -55,6 +55,8 @@ jobs:
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml
         export API_URL="$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+        echo "agora"
+        echo $API_URL
         kubectl rollout restart deployment api-deployment
 
     - name: Deploy API Producao
