@@ -40,7 +40,8 @@ jobs:
       run: |
         aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-2 
 
-    - name: Deploy 
+    - name: Deploy API Default
+      id: deploy-api-default
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
@@ -53,10 +54,8 @@ jobs:
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
-        kubectl apply -f api-svc.yaml        
-        export API_URL="http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"
-        echo "agora"
-        echo $API_URL
+        kubectl apply -f api-svc.yaml     
+        echo "API_URL=\"http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000\" >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-deployment
 
     - name: Deploy API Producao
@@ -79,9 +78,10 @@ jobs:
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}
+        export API_URL=${{ steps.deploy-api-default.outputs.API_URL }}"
         echo "agora"
         echo $API_URL
-        export API_URL=nada
+        
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
