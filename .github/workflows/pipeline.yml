@@ -60,6 +60,7 @@ jobs:
         kubectl rollout restart deployment api-deployment
 
     - name: Deploy API Producao
+      id: deploy-api-producao
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
@@ -76,6 +77,7 @@ jobs:
         kubectl rollout restart deployment api-producao-deployment
 
     - name: Deploy API Pedidos
+      id: deploy-api-pedidos
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
@@ -99,8 +101,8 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pagamentos:latest        
         export DB_HOST_PAGAMENTOS=${{ secrets.DB_HOST_PAGAMENTOS }}
         export DB_PASS=${{ secrets.DB_PASS }}
-        export PRODUCAO_URL=$(echo -n ${{ steps.deploy-api-default.outputs.PRODUCAO_URL }} | base64 -w 0)
-        export PEDIDOS_URL=$(echo -n ${{ steps.deploy-api-default.outputs.PEDIDOS_URL }} | base64 -w 0)
+        export PRODUCAO_URL=$(echo -n ${{ steps.deploy-api-producao.outputs.PRODUCAO_URL }} | base64 -w 0)
+        export PEDIDOS_URL=$(echo -n ${{ steps.deploy-api-pedidos.outputs.PEDIDOS_URL }} | base64 -w 0)
         echo $PRODUCAO_URL
         echo $PEDIDOS_URL
         cd ./kubernetes/api-pagamentos
