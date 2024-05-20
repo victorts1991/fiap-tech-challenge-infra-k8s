@@ -17,27 +17,8 @@ https://github.com/rhuandantas/fiap-tech-challenge-pedidos
 - No passo 8, ao invés de criar uma "repository secret" chamada DB_HOST, crie 3 "repository secret" chamadas
 DB_HOST_API, DB_HOST_PAGAMENTOS e DB_HOST_PRODUCAO;
 ```
-3. Crie uma conta no Mongo Atlas:
-```
-https://www.mongodb.com/cloud/atlas/register
-```
-4. Crie um cluster free;
-5. Em um dos passos da criação você irá criar um usuário, anote a senha do mesmo;
-6. Crie um banco de dados chamado pedidos;
-7. Após isso, vá até a aba "Data Services", no bloco "Application Development" e selecione a opção Go, após isso clique em “Get connection string”;
-8. Copie a connection string que será algo semelhante ao exemplo abaixo:
-```
-mongodb+srv://victorts1991:<password>@cluster0.hkavkji.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-```
-8. Substitua a parte onde está <password> pela senha copiada na criação do cluster;
-9. Em seu terminal, execute o comando abaixo com a connection string e copie a saída:
-```
-//Exemplo
-echo -n 'mongodb+srv://victorts1991:<password>@cluster0.hkavkji.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' | base64
-```
-10. Com a saída, adicione uma "repository secret" chamada MONGODB_URI no Github;
-11. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
-12. Após o pipeline ser concluído, antes de testar qualquer coisa, aguarde uns 5 minutos até que toda a estrutura tenha concluído todo o mapeamento interno da AWs;
+3. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
+4. Após o pipeline ser concluído, antes de testar qualquer coisa, aguarde uns 5 minutos até que toda a estrutura tenha concluído todo o mapeamento interno da AWs;
 
 
 ### Validação da execução do Kubernetes

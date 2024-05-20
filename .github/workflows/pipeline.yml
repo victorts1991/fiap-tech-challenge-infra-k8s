@@ -78,6 +78,15 @@ jobs:
       shell: bash
       run: |
         aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-2 
+    
+    - name: Deploy MongoDB
+      id: deploy-mongodb
+      run: |        
+        cd ./kubernetes/mongodb
+        kubectl apply -f mongodb-pv.yaml
+        kubectl apply -f mongodb-deployment.yaml
+        kubectl apply -f mongodb-svc.yaml
+        kubectl rollout restart deployment mongo-deployment
 
     - name: Deploy API Default
       id: deploy-api-default
@@ -121,7 +130,6 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
-        export MONGODB_URI=${{ secrets.MONGODB_URI }}  
         export API_URL=$(echo -n ${{ steps.deploy-api-default.outputs.API_URL }} | base64 -w 0)        
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
