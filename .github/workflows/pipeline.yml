@@ -10,7 +10,8 @@ jobs:
   setup-terraform:
 
     runs-on: ubuntu-latest
-
+    # For jump in development tests
+    if: false
     steps:
             
     - name: Check out code
@@ -94,6 +95,7 @@ jobs:
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml
+        export API_URL="$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
         kubectl rollout restart deployment api-deployment
 
     - name: Deploy API Producao
