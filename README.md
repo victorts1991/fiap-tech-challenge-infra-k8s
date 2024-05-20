@@ -23,8 +23,9 @@ https://www.mongodb.com/cloud/atlas/register
 ```
 4. Crie um cluster free;
 5. Em um dos passos da criação você irá criar um usuário, anote a senha do mesmo;
-6. Após ter feito a criação vá até a aba "Data Services", no bloco "Application Development" e selecione a opção Go, após isso clique em “Get connection string”;
-7. Copie a connection string que será algo semelhante ao exemplo abaixo:
+6. Crie um banco de dados chamado pedidos;
+7. Após isso, vá até a aba "Data Services", no bloco "Application Development" e selecione a opção Go, após isso clique em “Get connection string”;
+8. Copie a connection string que será algo semelhante ao exemplo abaixo:
 ```
 mongodb+srv://victorts1991:<password>@cluster0.hkavkji.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 ```
