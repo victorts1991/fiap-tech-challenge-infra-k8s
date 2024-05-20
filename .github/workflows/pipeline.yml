@@ -55,7 +55,7 @@ jobs:
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml           
-        export API_URL='http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000'        
+        export API_URL="API_URL=http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"
         echo $API_URL
         echo $API_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-deployment
