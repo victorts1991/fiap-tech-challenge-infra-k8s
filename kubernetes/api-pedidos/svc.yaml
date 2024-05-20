@@ -10,4 +10,4 @@ spec:
     app: api-pedidos
   ports:
     - port: 3000
-      targetPort: 3001
+      targetPort: 3000
