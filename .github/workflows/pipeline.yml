@@ -53,8 +53,8 @@ jobs:
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
-        kubectl apply -f api-svc.yaml
-        export API_URL="$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+        kubectl apply -f api-svc.yaml        
+        export API_URL="http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"
         echo "agora"
         echo $API_URL
         kubectl rollout restart deployment api-deployment
@@ -79,6 +79,8 @@ jobs:
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}
+        echo "agora"
+        echo $API_URL
         export API_URL=nada
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
