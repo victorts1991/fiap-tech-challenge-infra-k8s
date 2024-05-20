@@ -78,13 +78,7 @@ jobs:
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}
-        export API_URL=${{ steps.deploy-api-default.outputs.API_URL }}
-        echo "agora"
-        echo $API_URL
-        export API_URL=$(echo -n ${{ steps.deploy-api-default.outputs.API_URL }} | base64)
-        echo "agora 2"
-        echo $API_URL
-        
+        export API_URL=$(echo -n ${{ steps.deploy-api-default.outputs.API_URL }} | base64)        
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
