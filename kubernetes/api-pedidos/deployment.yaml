@@ -14,10 +14,10 @@ spec:
           image: $ECR_REPOSITORY
           resources:
             limits:
-              cpu: "0.3"
+              cpu: "0.1"
               memory: "512Mi"          
             requests:
-              cpu: "0.3"
+              cpu: "0.1"
               memory: "512Mi"
           ports:
             - containerPort: 3000
