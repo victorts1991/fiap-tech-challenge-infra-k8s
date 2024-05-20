@@ -85,7 +85,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api:latest        
-        export DB_HOST=${{ secrets.DB_HOST }}
+        export DB_HOST_API=${{ secrets.DB_HOST_API }}
         export DB_PASS=${{ secrets.DB_PASS }}
         cd ./kubernetes/metrics-server
         kubectl apply -f components.yaml
@@ -101,7 +101,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-producao:latest        
-        export DB_HOST=${{ secrets.DB_HOST }}
+        export DB_HOST_PRODUCAO=${{ secrets.DB_HOST_PRODUCAO }}
         export DB_PASS=${{ secrets.DB_PASS }}
         cd ./kubernetes/api-producao
         envsubst < secrets.yaml | kubectl apply -f -
@@ -115,8 +115,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
-        export DB_HOST=${{ secrets.DB_HOST }}
-        export DB_PASS=${{ secrets.DB_PASS }}
+        export MONGODB_URI=${{ secrets.MONGODB_URI }}
+        export API_URL=nada
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
@@ -129,8 +129,10 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pagamentos:latest        
-        export DB_HOST=${{ secrets.DB_HOST }}
+        export DB_HOST_PAGAMENTOS=${{ secrets.DB_HOST_PAGAMENTOS }}
         export DB_PASS=${{ secrets.DB_PASS }}
+        export PEDIDOS_URL=nada
+        export PRODUCAO_URL=nada
         cd ./kubernetes/api-pagamentos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
