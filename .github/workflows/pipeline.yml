@@ -82,6 +82,7 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}  
         export API_URL=${{ steps.deploy-api-default.outputs.API_URL }}
+        echo ":::::----2"
         echo $API_URL
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
