@@ -20,7 +20,7 @@ spec:
               cpu: "0.1"
               memory: "512Mi"
           ports:
-            - containerPort: 3000
+            - containerPort: 3001
           envFrom:
             - secretRef:
                 name: secrets-api-pedidos
