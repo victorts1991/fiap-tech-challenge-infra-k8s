@@ -34,10 +34,9 @@ mongodb+srv://victorts1991:<password>@cluster0.hkavkji.mongodb.net/?retryWrites=
 //Exemplo
 echo -n 'mongodb+srv://victorts1991:<password>@cluster0.hkavkji.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' | base64
 ```
-10. Com a saída, adicione uma "repository secret" chamada MONGODB_URI;
-**Revisar**
-12. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
-13. Após o pipeline ser concluído, antes de testar qualquer coisa, aguarde uns 5 minutos até que toda a estrutura tenha concluído todo o mapeamento interno da AWs;
+10. Com a saída, adicione uma "repository secret" chamada MONGODB_URI no Github;
+11. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
+12. Após o pipeline ser concluído, antes de testar qualquer coisa, aguarde uns 5 minutos até que toda a estrutura tenha concluído todo o mapeamento interno da AWs;
 
 
 ### Validação da execução do Kubernetes
@@ -67,10 +66,14 @@ kubectl describe pods
 
 # Chamando os endpoints:
 
-1. Na plataforma da AWS, vá até EC2 e clique em "Load balancers" e depois clique no Load Balancer criado;
-2. Na tela que irá se abrir copie o valor do "Nome do DNS", ele será semelhante a este valor "acb1520c01aaf4b2cb76ddf05e045720-765794247.us-east-2.elb.amazonaws.com";
-3. Após isso, concatene o valor copiado com a porta e a url de prova de vida(/liveness), depois disso, cole na barra de navegação do browser mesmo, o valor que você irá inserir na barra de navegação do browser será semelhante ao abaixo:
+1. Na linha de comando execute os seguintes comandos:
+```sh
+aws eks update-kubeconfig --name fiap-tech-challenge-infra-k8s --region=us-east-2
 
+kubectl get svc
+```
+2. Com o resultado, copie os valores da coluna "EXTERNAL-IP" dos serviços: api-pagamentos-svc, api-pedidos-svc, api-producao-svc e api-svc;
+3. Após isso cada um coloque no prefixo o valor http:// e no sufixo :3000/liveness, cada um deverá ficar semelhante ao abaixo:
 ```sh
 http://acb1520c01aaf4b2cb76ddf05e045720-765794247.us-east-2.elb.amazonaws.com:3000/liveness
 ```
