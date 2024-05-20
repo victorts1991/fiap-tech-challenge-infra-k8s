@@ -84,7 +84,6 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}  
         export API_URL=$(echo -n ${{ steps.deploy-api-default.outputs.API_URL }} | base64 -w 0)        
-        echo $API_URL
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
@@ -102,9 +101,7 @@ jobs:
         export DB_HOST_PAGAMENTOS=${{ secrets.DB_HOST_PAGAMENTOS }}
         export DB_PASS=${{ secrets.DB_PASS }}
         export PRODUCAO_URL=$(echo -n ${{ steps.deploy-api-producao.outputs.PRODUCAO_URL }} | base64 -w 0)
-        export PEDIDOS_URL=$(echo -n ${{ steps.deploy-api-pedidos.outputs.PEDIDOS_URL }} | base64 -w 0)
-        echo $PRODUCAO_URL
-        echo $PEDIDOS_URL
+        export PEDIDOS_URL=$(echo -n ${{ steps.deploy-api-pedidos.outputs.PEDIDOS_URL }} | base64 -w 0)        
         cd ./kubernetes/api-pagamentos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
