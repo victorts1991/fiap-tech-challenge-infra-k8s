@@ -13,7 +13,8 @@ https://github.com/rhuandantas/fiap-tech-challenge-pedidos
 ```
 - Ao invés da branch tech-challenge-3 utilize a branch main;
 - Repita os passos 3, 4, 5 e 6 para cada um dos três bancos de dados que foram criados;
-- No passo 8, ao invés de criar uma "repository secret" chamada DB_HOST, crie 3 "repository secret" chamadas DB_HOST_API, DB_HOST_PAGAMENTOS e DB_HOST_PRODUCAO;
+- No passo 8, ao invés de criar uma "repository secret" chamada DB_HOST, crie 3 "repository secret" chamadas
+DB_HOST_API, DB_HOST_PAGAMENTOS e DB_HOST_PRODUCAO;
 ```
 3. Crie uma conta no Mongo Atlas:
 ```
