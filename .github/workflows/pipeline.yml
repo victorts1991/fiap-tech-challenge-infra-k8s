@@ -71,6 +71,8 @@ jobs:
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
         kubectl apply -f svc.yaml
+        export PRODUCAO_URL="PRODUCAO_URL=http://$(kubectl get svc api-producao-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
+        echo $PRODUCAO_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-producao-deployment
 
     - name: Deploy API Pedidos
@@ -79,20 +81,15 @@ jobs:
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}  
-        export API_URL=${{ steps.deploy-api-default.outputs.API_URL }}
-        echo ${{ steps.deploy-api-default.outputs.API_URL }}
-        echo ":::::----2"
-        echo $API_URL
-        export API_URL=$(echo -n $API_URL | base64 -w 0)
-        echo ":::::----3"
+        export API_URL=$(echo -n ${{ steps.deploy-api-default.outputs.API_URL }} | base64 -w 0)        
         echo $API_URL
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
-        echo ":::::----4"
-        echo $API_URL
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
         kubectl apply -f svc.yaml
+        export PEDIDOS_URL="PEDIDOS_URL=http://$(kubectl get svc api-pedidos-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
+        echo $PEDIDOS_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-pedidos-deployment
 
     - name: Deploy API Pagamentos
@@ -102,8 +99,10 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pagamentos:latest        
         export DB_HOST_PAGAMENTOS=${{ secrets.DB_HOST_PAGAMENTOS }}
         export DB_PASS=${{ secrets.DB_PASS }}
-        export PEDIDOS_URL=nada
-        export PRODUCAO_URL=nada
+        export PRODUCAO_URL=$(echo -n ${{ steps.deploy-api-default.outputs.PRODUCAO_URL }} | base64 -w 0)
+        export PEDIDOS_URL=$(echo -n ${{ steps.deploy-api-default.outputs.PEDIDOS_URL }} | base64 -w 0)
+        echo $PRODUCAO_URL
+        echo $PEDIDOS_URL
         cd ./kubernetes/api-pagamentos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
