@@ -56,6 +56,7 @@ jobs:
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml           
         export API_URL='http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000'        
+        echo $API_URL
         echo $API_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-deployment
 
@@ -80,6 +81,7 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}  
         export API_URL=${{ steps.deploy-api-default.outputs.API_URL }}
+        echo ${{ steps.deploy-api-default.outputs.API_URL }}
         echo ":::::----2"
         echo $API_URL
         export API_URL=$(echo -n $API_URL | base64)
