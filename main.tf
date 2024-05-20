@@ -86,9 +86,10 @@ resource "aws_default_security_group" "eks_default" {
   egress {
     from_port       = 27017
     to_port         = 27017
-    protocol    = "-1"
+    protocol        = "0"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
 }
 
 
