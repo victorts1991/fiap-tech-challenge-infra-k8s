@@ -55,9 +55,7 @@ jobs:
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
         kubectl apply -f api-svc.yaml           
-        export API_URL='http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000'
-        export API_URL=$(echo -n $API_URL | base64)
-        echo $API_URL
+        export API_URL='http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000'        
         echo $API_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-deployment
 
@@ -84,9 +82,12 @@ jobs:
         export API_URL=${{ steps.deploy-api-default.outputs.API_URL }}
         echo ":::::----2"
         echo $API_URL
+        export API_URL=$(echo -n $API_URL | base64)
+        echo ":::::----3"
+        echo $API_URL
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
-        echo ":::::----3"
+        echo ":::::----4"
         echo $API_URL
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
