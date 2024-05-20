@@ -54,8 +54,11 @@ jobs:
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
-        kubectl apply -f api-svc.yaml     
-        echo "API_URL='http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000'" >> $GITHUB_OUTPUT
+        kubectl apply -f api-svc.yaml   
+        $(echo -n ${{ steps.deploy-api-default.outputs.API_URL }} | base64)
+        export API_URL='http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000'
+        export API_URL=$(echo -n $API_URL | base64)
+        echo $API_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-deployment
 
     - name: Deploy API Producao
@@ -78,7 +81,8 @@ jobs:
       run: |        
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-pedidos:latest        
         export MONGODB_URI=${{ secrets.MONGODB_URI }}  
-        export API_URL=$(echo -n ${{ steps.deploy-api-default.outputs.API_URL }} | base64)
+        export API_URL=${{ steps.deploy-api-default.outputs.API_URL }}
+        echo $API_URL
         cd ./kubernetes/api-pedidos
         envsubst < secrets.yaml | kubectl apply -f -
         echo ":::::----3"
