@@ -19,7 +19,7 @@ spec:
           containerPort: 27017
           hostPort: 27017
         volumeMounts:
-        - name: mongo-persistent-storage
+        - name: mongo-persistent-volume
           mountPath: /data/db
         lifecycle:
             postStart:
@@ -29,8 +29,12 @@ spec:
                   - -c
                   - |
                     chmod -R 777 /data/db
-      volumes:
-        - name: mongo-persistent-storage
-          gcePersistentDisk:
-            pdName: mongo-disk
-            fsType: ext4
+      volumeClaimTemplates:
+      - metadata:
+          name: mongo-persistent-volume
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 5Gi
+
