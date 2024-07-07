@@ -89,6 +89,13 @@ jobs:
         kubectl apply -f mongodb-svc.yaml
         kubectl rollout restart deployment mongo-deployment
 
+    - name: Get SQS url
+      id: sqs-url
+      run: |        
+        export PRODUCAO_QUEUE=$(echo $(aws sqs list-queues) | jq '.QueueUrls'[0])
+        export PRODUCAO_QUEUE=$(echo $PRODUCAO_QUEUE|tr -d '\"')
+        echo "PRODUCAO_QUEUE=$($PRODUCAO_QUEUE)" >> $GITHUB_OUTPUT
+
     - name: Deploy API Default
       id: deploy-api-default
       env:
@@ -116,6 +123,9 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-producao:latest        
         export DB_HOST_PRODUCAO=${{ secrets.DB_HOST_PRODUCAO }}
         export DB_PASS=${{ secrets.DB_PASS }}
+        export PRODUCAO_QUEUE=$(echo -n ${{ steps.sqs-url.outputs.PRODUCAO_QUEUE }} | base64 -w 0)
+        export SERVER_PORT=$(echo -n "3000" | base64 -w 0)
+        export AWS_REGION=$(echo -n "us-east-2" | base64 -w 0) 
         cd ./kubernetes/api-producao
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
@@ -150,6 +160,9 @@ jobs:
         export DB_PASS=${{ secrets.DB_PASS }}
         export PRODUCAO_URL=$(echo -n ${{ steps.deploy-api-producao.outputs.PRODUCAO_URL }} | base64 -w 0)
         export PEDIDOS_URL=$(echo -n ${{ steps.deploy-api-pedidos.outputs.PEDIDOS_URL }} | base64 -w 0)        
+        export PRODUCAO_QUEUE=$(echo -n ${{ steps.sqs-url.outputs.PRODUCAO_QUEUE }} | base64 -w 0)
+        export SERVER_PORT=$(echo -n "3000" | base64 -w 0)
+        export AWS_REGION=$(echo -n "us-east-2" | base64 -w 0) 
         cd ./kubernetes/api-pagamentos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
