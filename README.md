@@ -1,14 +1,18 @@
 # fiap-tech-challenge-infra-k8s
 
+### Tech Challenge 5
+
+1. Para este Tech Challenge final será necessário executar este repositório primeiro, sendo assim, execute do passo 2 do Tech Challenge 4 em diante;
+2. Agora execute o passo 1 do Tech Challenge 4;
 
 ### Tech Challenge 4:
 ### Passos para homologação dos professores da Fiap
 
 1. Execute todos os passos que estão no README.md dos repositórios abaixo para subir a imagem da api e dos microsserviços no ECR da AWS:
 ```
-https://github.com/rhuandantas/fiap-tech-challenge-pagamentos
-https://github.com/victorts1991/fiap-tech-challenge-api-producao
 https://github.com/rhuandantas/fiap-tech-challenge-pedidos
+https://github.com/victorts1991/fiap-tech-challenge-api-producao
+https://github.com/rhuandantas/fiap-tech-challenge-pagamentos
 ```
 2. Execute do passo 1 até o 22 do Tech Challenge 3 que se encontram abaixo com as mudanças abaixo:
 ```
