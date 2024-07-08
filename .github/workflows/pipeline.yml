@@ -111,7 +111,8 @@ jobs:
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
-        kubectl apply -f api-svc.yaml           
+        kubectl apply -f api-svc.yaml  
+        sleep 180         
         export API_URL="API_URL=http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
         echo $API_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-deployment
@@ -131,6 +132,7 @@ jobs:
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
         kubectl apply -f svc.yaml
+        sleep 180
         export PRODUCAO_URL="PRODUCAO_URL=http://$(kubectl get svc api-producao-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
         echo $PRODUCAO_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-producao-deployment
@@ -147,6 +149,7 @@ jobs:
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
         kubectl apply -f svc.yaml
+        sleep 180
         export PEDIDOS_URL="PEDIDOS_URL=http://$(kubectl get svc api-pedidos-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
         echo $PEDIDOS_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-pedidos-deployment
