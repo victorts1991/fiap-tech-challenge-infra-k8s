@@ -1,14 +1,19 @@
 # fiap-tech-challenge-infra-k8s
 
+### Tech Challenge 5
+
+1. Para este Tech Challenge final será necessário executar este repositório primeiro, sendo assim, execute do passo 2 do Tech Challenge 4 em diante;
+2. Agora execute o passo 1 do Tech Challenge 4;
+   
 
 ### Tech Challenge 4:
 ### Passos para homologação dos professores da Fiap
 
 1. Execute todos os passos que estão no README.md dos repositórios abaixo para subir a imagem da api e dos microsserviços no ECR da AWS:
 ```
-https://github.com/rhuandantas/fiap-tech-challenge-pagamentos
-https://github.com/victorts1991/fiap-tech-challenge-api-producao
 https://github.com/rhuandantas/fiap-tech-challenge-pedidos
+https://github.com/victorts1991/fiap-tech-challenge-api-producao
+https://github.com/rhuandantas/fiap-tech-challenge-pagamentos
 ```
 2. Execute do passo 1 até o 22 do Tech Challenge 3 que se encontram abaixo com as mudanças abaixo:
 ```
@@ -110,8 +115,9 @@ echo -n '123mudar' | base64
 20. Copie os valores dos campos "Chave de acesso" e "Chave de acesso secreta";
 21. Na plataforma do Github, acesse o menu "Settings" do projeto, na tela que se abrir, clique no menu Security->Secrets and variables->Actions;
 22. Adicione uma "repository secret" chamada AWS_ACCESS_KEY_ID com o valor copiado de "Chave de acesso", e crie outra "repository secret" chamada AWS_SECRET_ACCESS_KEY com o valor copiado de "Chave de acesso secreta";
-23. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
-24. Após o pipeline ser concluído, antes de testar qualquer coisa, aguarde uns 5 minutos até que toda a estrutura tenha concluído todo o mapeamento interno da AWs;
+23. Guarde os valores de chave de acesso pois eles serão utilizados nos repositórios de microsserviços;
+24. Após isso qualquer commit neste repositório que for para a branch "main", irá subir um cluster no EKS e toda a estrutura Kubernetes utilizando os arquivos yamls;
+25. Após o pipeline ser concluído, antes de testar qualquer coisa, aguarde uns 5 minutos até que toda a estrutura tenha concluído todo o mapeamento interno da AWs;
 
 
 ### Validação da execução do Kubernetes
@@ -148,3 +154,5 @@ kubectl describe pods
 ```sh
 http://acb1520c01aaf4b2cb76ddf05e045720-765794247.us-east-2.elb.amazonaws.com:3000/liveness
 ```
+
+

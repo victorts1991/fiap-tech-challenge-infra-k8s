@@ -89,6 +89,14 @@ jobs:
         kubectl apply -f mongodb-svc.yaml
         kubectl rollout restart deployment mongo-deployment
 
+    - name: Get SQS url
+      id: sqs-url
+      run: |        
+        export PRODUCAO_QUEUE=$(echo $(aws sqs list-queues) | jq '.QueueUrls'[0])
+        export PRODUCAO_QUEUE=$(echo $PRODUCAO_QUEUE|tr -d '\"')
+        export PRODUCAO_QUEUE="PRODUCAO_QUEUE=$PRODUCAO_QUEUE" 
+        echo $PRODUCAO_QUEUE >> $GITHUB_OUTPUT
+
     - name: Deploy API Default
       id: deploy-api-default
       env:
@@ -103,7 +111,8 @@ jobs:
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < api-deployment.yaml | kubectl apply -f -
         kubectl apply -f api-hpa.yaml
-        kubectl apply -f api-svc.yaml           
+        kubectl apply -f api-svc.yaml  
+        sleep 180         
         export API_URL="API_URL=http://$(kubectl get svc api-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
         echo $API_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-deployment
@@ -116,11 +125,14 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/fiap-tech-challenge-api-producao:latest        
         export DB_HOST_PRODUCAO=${{ secrets.DB_HOST_PRODUCAO }}
         export DB_PASS=${{ secrets.DB_PASS }}
+        export PRODUCAO_QUEUE=$(echo -n ${{ steps.sqs-url.outputs.PRODUCAO_QUEUE }} | base64 -w 0)
+        export AWS_REGION=$(echo -n "us-east-2" | base64) 
         cd ./kubernetes/api-producao
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
         kubectl apply -f svc.yaml
+        sleep 180
         export PRODUCAO_URL="PRODUCAO_URL=http://$(kubectl get svc api-producao-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
         echo $PRODUCAO_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-producao-deployment
@@ -137,6 +149,7 @@ jobs:
         envsubst < deployment.yaml | kubectl apply -f -
         kubectl apply -f hpa.yaml
         kubectl apply -f svc.yaml
+        sleep 180
         export PEDIDOS_URL="PEDIDOS_URL=http://$(kubectl get svc api-pedidos-svc -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):3000"        
         echo $PEDIDOS_URL >> $GITHUB_OUTPUT
         kubectl rollout restart deployment api-pedidos-deployment
@@ -150,6 +163,8 @@ jobs:
         export DB_PASS=${{ secrets.DB_PASS }}
         export PRODUCAO_URL=$(echo -n ${{ steps.deploy-api-producao.outputs.PRODUCAO_URL }} | base64 -w 0)
         export PEDIDOS_URL=$(echo -n ${{ steps.deploy-api-pedidos.outputs.PEDIDOS_URL }} | base64 -w 0)        
+        export PRODUCAO_QUEUE=$(echo -n ${{ steps.sqs-url.outputs.PRODUCAO_QUEUE }} | base64 -w 0)
+        export AWS_REGION=$(echo -n "us-east-2" | base64) 
         cd ./kubernetes/api-pagamentos
         envsubst < secrets.yaml | kubectl apply -f -
         envsubst < deployment.yaml | kubectl apply -f -
