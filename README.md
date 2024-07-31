@@ -5,7 +5,6 @@
 1. Para este Tech Challenge final será necessário executar este repositório primeiro, sendo assim, execute do passo 2 do Tech Challenge 4 em diante;
 2. Agora execute o passo 1 do Tech Challenge 4;
    
-
 ### Tech Challenge 4:
 ### Passos para homologação dos professores da Fiap
 
